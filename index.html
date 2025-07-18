@@ -19,6 +19,9 @@
         .results-value {
             color: #1F1611; /* Updated number color */
         }
+        .percentage-label { /* New class for percentage labels */
+            color: #5E3321;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -46,12 +49,12 @@
                     <h3 class="text-lg font-medium text-gray-700 mb-3">Ad Campaign Basics</h3>
                     <div>
                         <label for="adBudget" class="block text-sm font-medium text-gray-700 mb-1">Ad Budget ($)</label>
-                        <input type="number" id="adBudget" value="1000" min="0" step="100"
+                        <input type="number" id="adBudget" value="1200" min="0" step="100"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <div class="mt-4">
                         <label for="cpc" class="block text-sm font-medium text-gray-700 mb-1">Cost Per Click (CPC) ($)</label>
-                        <input type="number" id="cpc" value="1.50" min="0.01" step="0.01"
+                        <input type="number" id="cpc" value="1.75" min="0.01" step="0.01"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <!-- Projected Clicks result -->
@@ -65,13 +68,13 @@
                 <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
                     <h3 class="text-lg font-medium text-gray-700 mb-3">Front-End Funnel Conversion Rates</h3>
                     <div>
-                        <label for="clickToLeadConversion" class="block text-sm font-medium text-gray-700 mb-1">Click to Lead Conversion (%)</label>
-                        <input type="number" id="clickToLeadConversion" value="10" min="0" max="100" step="0.1"
+                        <label for="clickToLeadConversion" class="block text-sm font-medium percentage-label mb-1">Click to Lead Conversion (%)</label>
+                        <input type="number" id="clickToLeadConversion" value="15" min="0" max="100" step="0.1"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <div class="mt-4">
-                        <label for="leadToCustomerConversion" class="block text-sm font-medium text-gray-700 mb-1">Lead to Customer Conversion (%)</label>
-                        <input type="number" id="leadToCustomerConversion" value="5" min="0" max="100" step="0.1"
+                        <label for="leadToCustomerConversion" class="block text-sm font-medium percentage-label mb-1">Lead to Customer Conversion (%)</label>
+                        <input type="number" id="leadToCustomerConversion" value="50" min="0" max="100" step="0.1"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <!-- Funnel Metrics results -->
@@ -106,11 +109,11 @@
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
                             <label for="orderBumpPrice" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 1 Price ($)</label>
-                            <input type="number" id="orderBumpPrice" value="17" min="0" step="1"
+                            <input type="number" id="orderBumpPrice" value="27" min="0" step="1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
-                            <label for="orderBumpConversion" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 1 Conversion (%)</label>
+                            <label for="orderBumpConversion" class="block text-sm font-medium percentage-label mb-1">Order Bump 1 Conversion (%)</label>
                             <input type="number" id="orderBumpConversion" value="30" min="0" max="100" step="0.1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
@@ -118,12 +121,12 @@
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
                             <label for="orderBump2Price" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 2 Price ($)</label>
-                            <input type="number" id="orderBump2Price" value="27" min="0" step="1"
+                            <input type="number" id="orderBump2Price" value="17" min="0" step="1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
-                            <label for="orderBump2Conversion" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 2 Conversion (%)</label>
-                            <input type="number" id="orderBump2Conversion" value="20" min="0" max="100" step="0.1"
+                            <label for="orderBump2Conversion" class="block text-sm font-medium percentage-label mb-1">Order Bump 2 Conversion (%)</label>
+                            <input type="number" id="orderBump2Conversion" value="30" min="0" max="100" step="0.1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                     </div>
@@ -134,8 +137,8 @@
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
-                            <label for="oto1Conversion" class="block text-sm font-medium text-gray-700 mb-1">OTO1 Conversion (%)</label>
-                            <input type="number" id="oto1Conversion" value="15" min="0" max="100" step="0.1"
+                            <label for="oto1Conversion" class="block text-sm font-medium percentage-label mb-1">OTO1 Conversion (%)</label>
+                            <input type="number" id="oto1Conversion" value="10" min="0" max="100" step="0.1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                     </div>
@@ -146,20 +149,33 @@
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
-                            <label for="oto2Conversion" class="block text-sm font-medium text-gray-700 mb-1">OTO2 Conversion (%)</label>
+                            <label for="oto2Conversion" class="block text-sm font-medium percentage-label mb-1">OTO2 Conversion (%)</label>
                             <input type="number" id="oto2Conversion" value="8" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <!-- New OTO3 Fields -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="oto3Price" class="block text-sm font-medium text-gray-700 mb-1">OTO3 Price ($)</label>
+                            <input type="number" id="oto3Price" value="0" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="oto3Conversion" class="block text-sm font-medium percentage-label mb-1">OTO3 Conversion (%)</label>
+                            <input type="number" id="oto3Conversion" value="0" min="0" max="100" step="0.1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
                             <label for="downsellPrice" class="block text-sm font-medium text-gray-700 mb-1">Downsell Price ($)</label>
-                            <input type="number" id="downsellPrice" value="47" min="0" step="1"
+                            <input type="number" id="downsellPrice" value="0" min="0" step="1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
-                            <label for="downsellConversion" class="block text-sm font-medium text-gray-700 mb-1">Downsell Conversion (%)</label>
-                            <input type="number" id="downsellConversion" value="10" min="0" max="100" step="0.1"
+                            <label for="downsellConversion" class="block text-sm font-medium percentage-label mb-1">Downsell Conversion (%)</label>
+                            <input type="number" id="downsellConversion" value="0" min="0" max="100" step="0.1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                     </div>
@@ -171,8 +187,8 @@
                 <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
                     <h3 class="text-lg font-medium text-gray-700 mb-3">Optional Back-End Sales Projections</h3>
                     <div>
-                        <label for="customerToBackendConversion" class="block text-sm font-medium text-gray-700 mb-1">Customer to Back-End Conversion (%)</label>
-                        <input type="number" id="customerToBackendConversion" value="10" min="0" max="100" step="0.1"
+                        <label for="customerToBackendConversion" class="block text-sm font-medium percentage-label mb-1">Customer to Back-End Conversion (%)</label>
+                        <input type="number" id="customerToBackendConversion" value="5" min="0" max="100" step="0.1"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <div class="border-t border-gray-200 mt-4 pt-4 space-y-2">
@@ -184,24 +200,24 @@
 
                     <div class="mt-4">
                         <label for="pifPrice" class="block text-sm font-medium text-gray-700 mb-1">Pay in Full (PIF) Price ($)</label>
-                        <input type="number" id="pifPrice" value="1997" min="0" step="100"
+                        <input type="number" id="pifPrice" value="997" min="0" step="100"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
                     <div class="mt-4">
-                        <label for="pifConversion" class="block text-sm font-medium text-gray-700 mb-1">PIF Conversion (% of Back-End Customers)</label>
-                        <input type="number" id="pifConversion" value="50" min="0" max="100" step="0.1"
+                        <label for="pifConversion" class="block text-sm font-medium percentage-label mb-1">PIF Conversion (% of Back-End Customers)</label>
+                        <input type="number" id="pifConversion" value="80" min="0" max="100" step="0.1"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
                             <label for="pp1Price" class="block text-sm font-medium text-gray-700 mb-1">Payment Plan 1 Total Price ($)</label>
-                            <input type="number" id="pp1Price" value="2497" min="0" step="100"
+                            <input type="number" id="pp1Price" value="1182" min="0" step="100"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                         <div>
                             <label for="pp1Payments" class="block text-sm font-medium text-gray-700 mb-1">PP1 # of Payments</label>
-                            <input type="number" id="pp1Payments" value="3" min="1" step="1"
+                            <input type="number" id="pp1Payments" value="6" min="1" step="1"
                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                         </div>
                     </div>
@@ -235,6 +251,11 @@
                         <div class="flex justify-between items-center py-2 border-b border-blue-200">
                             <span class="text-gray-700 font-medium">Revenue from OTO2:</span>
                             <span id="revenueOto2" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <!-- New OTO3 Revenue Display -->
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from OTO3:</span>
+                            <span id="revenueOto3" class="font-bold text-lg results-value">$0.00</span>
                         </div>
                         <div class="flex justify-between items-center py-2">
                             <span class="text-gray-700 font-medium">Revenue from Downsell:</span>
@@ -336,6 +357,8 @@
         const oto1ConversionInput = document.getElementById('oto1Conversion');
         const oto2PriceInput = document.getElementById('oto2Price');
         const oto2ConversionInput = document.getElementById('oto2Conversion');
+        const oto3PriceInput = document.getElementById('oto3Price'); // New OTO3 input
+        const oto3ConversionInput = document.getElementById('oto3Conversion'); // New OTO3 input
         const downsellPriceInput = document.getElementById('downsellPrice');
         const downsellConversionInput = document.getElementById('downsellConversion');
 
@@ -358,6 +381,7 @@
         const revenueOrderBump2Span = document.getElementById('revenueOrderBump2');
         const revenueOto1Span = document.getElementById('revenueOto1');
         const revenueOto2Span = document.getElementById('revenueOto2');
+        const revenueOto3Span = document.getElementById('revenueOto3'); // New OTO3 output
         const revenueDownsellSpan = document.getElementById('revenueDownsell');
 
         // Back-End Sales Outputs (Simplified)
@@ -471,6 +495,8 @@
             const oto1Conversion = parseFloat(oto1ConversionInput.value) / 100;
             const oto2Price = parseFloat(oto2PriceInput.value);
             const oto2Conversion = parseFloat(oto2ConversionInput.value) / 100;
+            const oto3Price = parseFloat(oto3PriceInput.value); // New OTO3 value
+            const oto3Conversion = parseFloat(oto3ConversionInput.value) / 100; // New OTO3 value
             const downsellPrice = parseFloat(downsellPriceInput.value);
             const downsellConversion = parseFloat(downsellConversionInput.value) / 100;
 
@@ -488,6 +514,7 @@
                 initialOfferPrice, orderBumpPrice, orderBumpConversion,
                 orderBump2Price, orderBump2Conversion,
                 oto1Price, oto1Conversion, oto2Price, oto2Conversion,
+                oto3Price, oto3Conversion, // Include OTO3 in validation
                 downsellPrice, downsellConversion,
                 customerToBackendConversion, pifPrice, pifConversion,
                 pp1Price, pp1Payments
@@ -501,6 +528,7 @@
                             orderBump2Conversion >= 0 && orderBump2Conversion <= 1 &&
                             oto1Conversion >= 0 && oto1Conversion <= 1 &&
                             oto2Conversion >= 0 && oto2Conversion <= 1 &&
+                            oto3Conversion >= 0 && oto3Conversion <= 1 && // Validate OTO3 conversion
                             downsellConversion >= 0 && downsellConversion <= 1 &&
                             customerToBackendConversion >=0 && customerToBackendConversion <= 1 &&
                             pifConversion >=0 && pifConversion <= 1; // pp1Conversion is derived, not input
@@ -519,6 +547,7 @@
                 if (revenueOrderBump2Span) revenueOrderBump2Span.textContent = formatCurrency(0);
                 if (revenueOto1Span) revenueOto1Span.textContent = formatCurrency(0);
                 if (revenueOto2Span) revenueOto2Span.textContent = formatCurrency(0);
+                if (revenueOto3Span) revenueOto3Span.textContent = formatCurrency(0); // Reset OTO3 revenue
                 if (revenueDownsellSpan) revenueDownsellSpan.textContent = formatCurrency(0);
 
                 if (frontEndGrossRevenueSpan) frontEndGrossRevenueSpan.textContent = formatCurrency(0);
@@ -557,10 +586,11 @@
             const revenueOrderBump2 = totalCustomers * orderBump2Conversion * orderBump2Price;
             const revenueOto1 = totalCustomers * oto1Conversion * oto1Price;
             const revenueOto2 = totalCustomers * oto2Conversion * oto2Price;
+            const revenueOto3 = totalCustomers * oto3Conversion * oto3Price; // New OTO3 revenue
             const revenueDownsell = totalCustomers * downsellConversion * downsellPrice;
 
             const frontEndGrossRevenue = revenueInitialOffer + revenueOrderBump + revenueOrderBump2 +
-                                      revenueOto1 + revenueOto2 + revenueDownsell;
+                                      revenueOto1 + revenueOto2 + revenueOto3 + revenueDownsell; // Include OTO3 in sum
             const frontEndNetRevenue = frontEndGrossRevenue; // No refund rate
 
             const frontEndTotalProfit = frontEndNetRevenue - adBudget;
@@ -594,6 +624,7 @@
             if (revenueOrderBump2Span) { revenueOrderBump2Span.textContent = formatCurrency(revenueOrderBump2); revenueOrderBump2Span.classList.add('results-value'); }
             if (revenueOto1Span) { revenueOto1Span.textContent = formatCurrency(revenueOto1); revenueOto1Span.classList.add('results-value'); }
             if (revenueOto2Span) { revenueOto2Span.textContent = formatCurrency(revenueOto2); revenueOto2Span.classList.add('results-value'); }
+            if (revenueOto3Span) { revenueOto3Span.textContent = formatCurrency(revenueOto3); revenueOto3Span.classList.add('results-value'); } // Update OTO3 revenue display
             if (revenueDownsellSpan) { revenueDownsellSpan.textContent = formatCurrency(revenueDownsell); revenueDownsellSpan.classList.add('results-value'); }
 
             // Front-End Overall Financials
