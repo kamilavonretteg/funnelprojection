@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Campaign Projection Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #7D200E; /* Updated main background color */
+        }
+        /* New styling for headers and numbers in results section */
+        .results-header {
+            color: #5E3321;
+        }
+        .results-value {
+            color: #1F1611; /* Updated number color */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
+        <!-- Branding Element: Logo -->
+        <div class="text-center mb-6">
+            <img src="https://kamilavonretteg.com/wp-content/uploads/2025/07/kamila-main-cream-scaled.png" alt="Kamila Von Retteg Logo" class="mx-auto rounded-lg max-h-24 object-contain">
+        </div>
+
+        <h1 class="text-4xl font-bold text-[#5E3321] text-center mb-4 drop-shadow-sm">Ad Campaign Funnel Projection Calculator</h1>
+
+        <!-- Introduction Text Section -->
+        <div class="text-center text-gray-700 text-sm mb-8 p-4 bg-gray-100 rounded-lg shadow-inner">
+            <p class="mb-2">This calculator is exclusively for our clients and should be used alongside guidance from your coach. It's designed to show how even small tweaks in your funnel can create big shifts in your overall results.</p>
+            <p>If a field doesn’t apply to your funnel, just leave it blank or type in '0'.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Input Fields - Left Column -->
+            <div class="space-y-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Inputs</h2>
+
+                <!-- 1. Core Ad Metrics -->
+                <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Ad Campaign Basics</h3>
+                    <div>
+                        <label for="adBudget" class="block text-sm font-medium text-gray-700 mb-1">Ad Budget ($)</label>
+                        <input type="number" id="adBudget" value="1000" min="0" step="100"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <div class="mt-4">
+                        <label for="cpc" class="block text-sm font-medium text-gray-700 mb-1">Cost Per Click (CPC) ($)</label>
+                        <input type="number" id="cpc" value="1.50" min="0.01" step="0.01"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <!-- Projected Clicks result -->
+                    <div class="flex justify-between items-center py-2 border-t border-gray-200 mt-4 pt-4">
+                        <span class="text-gray-700 font-medium">Projected Clicks:</span>
+                        <span id="totalClicks" class="text-blue-700 font-bold text-lg">0</span>
+                    </div>
+                </div>
+
+                <!-- 2. Funnel Conversion Rates -->
+                <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Front-End Funnel Conversion Rates</h3>
+                    <div>
+                        <label for="clickToLeadConversion" class="block text-sm font-medium text-gray-700 mb-1">Click to Lead Conversion (%)</label>
+                        <input type="number" id="clickToLeadConversion" value="10" min="0" max="100" step="0.1"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <div class="mt-4">
+                        <label for="leadToCustomerConversion" class="block text-sm font-medium text-gray-700 mb-1">Lead to Customer Conversion (%)</label>
+                        <input type="number" id="leadToCustomerConversion" value="5" min="0" max="100" step="0.1"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <!-- Funnel Metrics results -->
+                    <div class="border-t border-gray-200 mt-4 pt-4 space-y-2">
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-700 font-medium">Projected Leads:</span>
+                            <span id="totalLeads" class="text-blue-700 font-bold text-lg">0</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-700 font-medium">Cost Per Lead (CPL):</span>
+                            <span id="costPerLead" class="text-blue-700 font-bold text-lg">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-700 font-medium">Projected Customers:</span>
+                            <span id="totalCustomers" class="text-blue-700 font-bold text-lg">0</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-700 font-medium">Cost Per Customer (CPCus):</span>
+                            <span id="costPerCustomer" class="text-blue-700 font-bold text-lg">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Front-End Offer Details -->
+                <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Front-End Offer Pricing & Conversions</h3>
+                    <div>
+                        <label for="initialOfferPrice" class="block text-sm font-medium text-gray-700 mb-1">Initial Offer Price ($)</label>
+                        <input type="number" id="initialOfferPrice" value="27" min="0" step="1"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="orderBumpPrice" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 1 Price ($)</label>
+                            <input type="number" id="orderBumpPrice" value="17" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="orderBumpConversion" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 1 Conversion (%)</label>
+                            <input type="number" id="orderBumpConversion" value="30" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="orderBump2Price" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 2 Price ($)</label>
+                            <input type="number" id="orderBump2Price" value="27" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="orderBump2Conversion" class="block text-sm font-medium text-gray-700 mb-1">Order Bump 2 Conversion (%)</label>
+                            <input type="number" id="orderBump2Conversion" value="20" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="oto1Price" class="block text-sm font-medium text-gray-700 mb-1">OTO1 Price ($)</label>
+                            <input type="number" id="oto1Price" value="97" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="oto1Conversion" class="block text-sm font-medium text-gray-700 mb-1">OTO1 Conversion (%)</label>
+                            <input type="number" id="oto1Conversion" value="15" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="oto2Price" class="block text-sm font-medium text-gray-700 mb-1">OTO2 Price ($)</label>
+                            <input type="number" id="oto2Price" value="197" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="oto2Conversion" class="block text-sm font-medium text-gray-700 mb-1">OTO2 Conversion (%)</label>
+                            <input type="number" id="oto2Conversion" value="8" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="downsellPrice" class="block text-sm font-medium text-gray-700 mb-1">Downsell Price ($)</label>
+                            <input type="number" id="downsellPrice" value="47" min="0" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="downsellConversion" class="block text-sm font-medium text-gray-700 mb-1">Downsell Conversion (%)</label>
+                            <input type="number" id="downsellConversion" value="10" min="0" max="100" step="0.1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Financial Adjustments (Refund Rate Removed) - This section is now removed -->
+
+                <!-- 5. Optional Back-End Sales Projections (Simplified) -->
+                <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Optional Back-End Sales Projections</h3>
+                    <div>
+                        <label for="customerToBackendConversion" class="block text-sm font-medium text-gray-700 mb-1">Customer to Back-End Conversion (%)</label>
+                        <input type="number" id="customerToBackendConversion" value="10" min="0" max="100" step="0.1"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <div class="border-t border-gray-200 mt-4 pt-4 space-y-2">
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-700 font-medium">Projected Back-End Customers:</span>
+                            <span id="totalBackendCustomers" class="text-blue-700 font-bold text-lg">0</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="pifPrice" class="block text-sm font-medium text-gray-700 mb-1">Pay in Full (PIF) Price ($)</label>
+                        <input type="number" id="pifPrice" value="1997" min="0" step="100"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <div class="mt-4">
+                        <label for="pifConversion" class="block text-sm font-medium text-gray-700 mb-1">PIF Conversion (% of Back-End Customers)</label>
+                        <input type="number" id="pifConversion" value="50" min="0" max="100" step="0.1"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="pp1Price" class="block text-sm font-medium text-gray-700 mb-1">Payment Plan 1 Total Price ($)</label>
+                            <input type="number" id="pp1Price" value="2497" min="0" step="100"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="pp1Payments" class="block text-sm font-medium text-gray-700 mb-1">PP1 # of Payments</label>
+                            <input type="number" id="pp1Payments" value="3" min="1" step="1"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Display - Right Column -->
+            <div class="space-y-6 bg-[#F1E2C7] p-6 rounded-xl shadow-inner"> <!-- Updated background color -->
+                <h2 class="text-xl font-semibold results-header mb-4">Projected Results</h2>
+
+                <!-- 1. Front-End Revenue Breakdown (Now with Accordion) -->
+                <details class="p-4 bg-[#fdf9f3] rounded-lg shadow-sm"> <!-- Updated background color -->
+                    <summary class="text-lg font-medium results-header cursor-pointer">Front-End Revenue Breakdown</summary>
+                    <div class="mt-3 space-y-2">
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from Initial Offer:</span>
+                            <span id="revenueInitialOffer" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from Order Bump 1:</span>
+                            <span id="revenueOrderBump" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from Order Bump 2:</span>
+                            <span id="revenueOrderBump2" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from OTO1:</span>
+                            <span id="revenueOto1" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                            <span class="text-gray-700 font-medium">Revenue from OTO2:</span>
+                            <span id="revenueOto2" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-gray-700 font-medium">Revenue from Downsell:</span>
+                            <span id="revenueDownsell" class="font-bold text-lg results-value">$0.00</span>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 2. Front-End Overall Financials -->
+                <div class="p-4 bg-[#fdf9f3] rounded-lg shadow-sm"> <!-- Updated background color -->
+                    <h3 class="text-lg font-medium results-header mb-3">Front-End Overall Financials</h3>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Gross Front-End Revenue:</span>
+                        <span id="frontEndGrossRevenue" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Net Front-End Revenue:</span>
+                        <span id="frontEndNetRevenue" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Calculated Front-End AOV:</span>
+                        <span id="frontEndCalculatedAov" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Front-End Profit:</span>
+                        <span id="frontEndTotalProfit" class="font-bold text-lg">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-700 font-medium">Front-End ROAS:</span>
+                        <span id="frontEndRoas" class="font-bold text-lg">0.00x</span>
+                    </div>
+                </div>
+
+                <!-- 3. Back-End Revenue Breakdown -->
+                <div class="p-4 bg-[#fdf9f3] rounded-lg shadow-sm"> <!-- Updated background color -->
+                    <h3 class="text-lg font-medium results-header mb-3">Back-End Revenue Breakdown</h3>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Revenue from PIF:</span>
+                        <span id="revenuePif" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-700 font-medium">Revenue from Payment Plan 1:</span>
+                        <span id="revenuePp1" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- 4. Total Funnel Financials (Front-End + Back-End) -->
+                <div class="p-4 bg-[#fdf9f3] rounded-lg shadow-sm"> <!-- Updated background color -->
+                    <h3 class="text-lg font-medium results-header mb-3">Total Funnel Financials (Front-End + Back-End)</h3>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Total Funnel Gross Revenue:</span>
+                        <span id="totalFunnelGrossRevenue" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Total Funnel Net Revenue:</span>
+                        <span id="totalFunnelNetRevenue" class="font-bold text-lg results-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-blue-200">
+                        <span class="text-gray-700 font-medium">Total Funnel Profit:</span>
+                        <span id="totalFunnelProfit" class="font-bold text-lg">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-700 font-medium">Total Funnel ROAS:</span>
+                        <span id="totalFunnelRoas" class="font-bold text-lg">0.00x</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="text-center text-gray-700 text-sm mt-8 p-4 bg-gray-100 rounded-lg shadow-inner">
+            <p class="mb-4">For more support, go into your client community or reach out to your coach for support.</p>
+            <p class="mb-4">For more information, click below:</p>
+            <a href="https://www.kamilavonretteg.com" target="_blank" rel="noopener noreferrer"
+               class="inline-block px-6 py-3 rounded-lg font-semibold text-white shadow-md transition-transform transform hover:scale-105"
+               style="background-color: #5E3321;">
+                Visit Our Website
+            </a>
+        </div>
+
+        <div id="errorMessage" class="text-red-600 text-center mt-4 hidden">
+            Please ensure all input values are valid and positive. Conversion rates should be between 0 and 100.
+        </div>
+    </div>
+
+    <script>
+        // Get references to input elements
+        const adBudgetInput = document.getElementById('adBudget');
+        const cpcInput = document.getElementById('cpc');
+        const clickToLeadConversionInput = document.getElementById('clickToLeadConversion');
+        const leadToCustomerConversionInput = document.getElementById('leadToCustomerConversion');
+        const initialOfferPriceInput = document.getElementById('initialOfferPrice');
+        const orderBumpPriceInput = document.getElementById('orderBumpPrice');
+        const orderBumpConversionInput = document.getElementById('orderBumpConversion');
+        const orderBump2PriceInput = document.getElementById('orderBump2Price');
+        const orderBump2ConversionInput = document.getElementById('orderBump2Conversion');
+        const oto1PriceInput = document.getElementById('oto1Price');
+        const oto1ConversionInput = document.getElementById('oto1Conversion');
+        const oto2PriceInput = document.getElementById('oto2Price');
+        const oto2ConversionInput = document.getElementById('oto2Conversion');
+        const downsellPriceInput = document.getElementById('downsellPrice');
+        const downsellConversionInput = document.getElementById('downsellConversion');
+
+        // Back-End Sales Inputs (Simplified)
+        const customerToBackendConversionInput = document.getElementById('customerToBackendConversion');
+        const pifPriceInput = document.getElementById('pifPrice');
+        const pifConversionInput = document.getElementById('pifConversion');
+        const pp1PriceInput = document.getElementById('pp1Price');
+        const pp1PaymentsInput = document.getElementById('pp1Payments');
+
+        // Get references to output elements
+        const totalClicksSpan = document.getElementById('totalClicks');
+        const calculatedCpcSpan = document.getElementById('calculatedCpc');
+        const totalLeadsSpan = document.getElementById('totalLeads');
+        const costPerLeadSpan = document.getElementById('costPerLead');
+        const totalCustomersSpan = document.getElementById('totalCustomers');
+        const costPerCustomerSpan = document.getElementById('costPerCustomer');
+        const revenueInitialOfferSpan = document.getElementById('revenueInitialOffer');
+        const revenueOrderBumpSpan = document.getElementById('revenueOrderBump');
+        const revenueOrderBump2Span = document.getElementById('revenueOrderBump2');
+        const revenueOto1Span = document.getElementById('revenueOto1');
+        const revenueOto2Span = document.getElementById('revenueOto2');
+        const revenueDownsellSpan = document.getElementById('revenueDownsell');
+
+        // Back-End Sales Outputs (Simplified)
+        const totalBackendCustomersSpan = document.getElementById('totalBackendCustomers');
+        const revenuePifSpan = document.getElementById('revenuePif');
+        const revenuePp1Span = document.getElementById('revenuePp1');
+
+        // Front-End Overall Financials
+        const frontEndGrossRevenueSpan = document.getElementById('frontEndGrossRevenue');
+        const frontEndNetRevenueSpan = document.getElementById('frontEndNetRevenue');
+        const frontEndCalculatedAovSpan = document.getElementById('frontEndCalculatedAov');
+        const frontEndTotalProfitSpan = document.getElementById('frontEndTotalProfit');
+        const frontEndRoasSpan = document.getElementById('frontEndRoas');
+
+        // Total Funnel Financials
+        const totalFunnelGrossRevenueSpan = document.getElementById('totalFunnelGrossRevenue');
+        const totalFunnelNetRevenueSpan = document.getElementById('totalFunnelNetRevenue');
+        const totalFunnelProfitSpan = document.getElementById('totalFunnelProfit');
+        const totalFunnelRoasSpan = document.getElementById('totalFunnelRoas');
+
+        const errorMessageDiv = document.getElementById('errorMessage');
+
+        /**
+         * Formats a number as a currency string.
+         * @param {number} amount - The number to format.
+         * @returns {string} The formatted currency string.
+         */
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        }
+
+        /**
+         * Formats a number as a percentage string.
+         * @param {number} value - The number to format (e.g., 0.05 for 5%).
+         * @returns {string} The formatted percentage string.
+         */
+        function formatPercentage(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'percent',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(value);
+        }
+
+        /**
+         * Applies conditional styling to ROAS span.
+         * @param {HTMLElement} spanElement - The span element to style.
+         * @param {number} roasValue - The ROAS value.
+         */
+        function styleRoas(spanElement, roasValue) {
+            if (!spanElement) return;
+
+            spanElement.classList.remove('text-red-700', 'text-green-700', 'text-gray-700');
+            // Ensure the base color is applied before conditional colors
+            spanElement.classList.add('results-value'); 
+
+            let roasText = roasValue.toFixed(2) + 'x';
+
+            if (roasValue < 1) {
+                spanElement.classList.add('text-red-700');
+            } else if (roasValue >= 1 && roasValue < 2) {
+                spanElement.classList.add('text-green-700');
+            } else { // roasValue >= 2
+                spanElement.classList.add('text-green-700');
+                roasText += ' 🎉'; // Add confetti emoji
+            }
+            spanElement.textContent = roasText;
+        }
+
+        /**
+         * Applies conditional styling to Profit span.
+         * @param {HTMLElement} spanElement - The span element to style.
+         * @param {number} profitValue - The profit value.
+         */
+        function styleProfit(spanElement, profitValue) {
+            if (!spanElement) return;
+
+            spanElement.classList.remove('text-red-700', 'text-green-700', 'text-gray-700');
+            // Ensure the base color is applied before conditional colors
+            spanElement.classList.add('results-value'); 
+
+            if (profitValue < 0) {
+                spanElement.classList.add('text-red-700');
+            } else {
+                spanElement.classList.add('text-green-700');
+            }
+            spanElement.textContent = formatCurrency(profitValue);
+        }
+
+
+        /**
+         * Performs the calculations based on current input values and updates the display.
+         */
+        function calculateProjections() {
+            // Get values from inputs
+            const adBudget = parseFloat(adBudgetInput.value);
+            const cpc = parseFloat(cpcInput.value);
+            const clickToLeadConversion = parseFloat(clickToLeadConversionInput.value) / 100;
+            const leadToCustomerConversion = parseFloat(leadToCustomerConversionInput.value) / 100;
+            const initialOfferPrice = parseFloat(initialOfferPriceInput.value);
+            const orderBumpPrice = parseFloat(orderBumpPriceInput.value);
+            const orderBumpConversion = parseFloat(orderBumpConversionInput.value) / 100;
+            const orderBump2Price = parseFloat(orderBump2PriceInput.value);
+            const orderBump2Conversion = parseFloat(orderBump2ConversionInput.value) / 100;
+            const oto1Price = parseFloat(oto1PriceInput.value);
+            const oto1Conversion = parseFloat(oto1ConversionInput.value) / 100;
+            const oto2Price = parseFloat(oto2PriceInput.value);
+            const oto2Conversion = parseFloat(oto2ConversionInput.value) / 100;
+            const downsellPrice = parseFloat(downsellPriceInput.value);
+            const downsellConversion = parseFloat(downsellConversionInput.value) / 100;
+
+            // Back-End Sales Values (Simplified)
+            const customerToBackendConversion = parseFloat(customerToBackendConversionInput.value) / 100;
+            const pifPrice = parseFloat(pifPriceInput.value);
+            const pifConversion = parseFloat(pifConversionInput.value) / 100; // % of back-end customers
+            const pp1Price = parseFloat(pp1PriceInput.value);
+            const pp1Payments = parseFloat(pp1PaymentsInput.value); // For display/info only
+
+
+            // Basic validation
+            const inputs = [
+                adBudget, cpc, clickToLeadConversion, leadToCustomerConversion,
+                initialOfferPrice, orderBumpPrice, orderBumpConversion,
+                orderBump2Price, orderBump2Conversion,
+                oto1Price, oto1Conversion, oto2Price, oto2Conversion,
+                downsellPrice, downsellConversion,
+                customerToBackendConversion, pifPrice, pifConversion,
+                pp1Price, pp1Payments
+            ];
+
+            const isValid = inputs.every(val => !isNaN(val) && val >= 0) &&
+                            cpc > 0 &&
+                            clickToLeadConversion >= 0 && clickToLeadConversion <= 1 &&
+                            leadToCustomerConversion >= 0 && leadToCustomerConversion <= 1 &&
+                            orderBumpConversion >= 0 && orderBumpConversion <= 1 &&
+                            orderBump2Conversion >= 0 && orderBump2Conversion <= 1 &&
+                            oto1Conversion >= 0 && oto1Conversion <= 1 &&
+                            oto2Conversion >= 0 && oto2Conversion <= 1 &&
+                            downsellConversion >= 0 && downsellConversion <= 1 &&
+                            customerToBackendConversion >=0 && customerToBackendConversion <= 1 &&
+                            pifConversion >=0 && pifConversion <= 1; // pp1Conversion is derived, not input
+
+            if (!isValid) {
+                errorMessageDiv.classList.remove('hidden');
+                // Reset all output fields to default/error state
+                if (totalClicksSpan) totalClicksSpan.textContent = 'N/A';
+                if (totalLeadsSpan) totalLeadsSpan.textContent = 'N/A';
+                if (costPerLeadSpan) costPerLeadSpan.textContent = formatCurrency(0);
+                if (totalCustomersSpan) totalCustomersSpan.textContent = 'N/A';
+                if (costPerCustomerSpan) costPerCustomerSpan.textContent = formatCurrency(0);
+                
+                if (revenueInitialOfferSpan) revenueInitialOfferSpan.textContent = formatCurrency(0);
+                if (revenueOrderBumpSpan) revenueOrderBumpSpan.textContent = formatCurrency(0);
+                if (revenueOrderBump2Span) revenueOrderBump2Span.textContent = formatCurrency(0);
+                if (revenueOto1Span) revenueOto1Span.textContent = formatCurrency(0);
+                if (revenueOto2Span) revenueOto2Span.textContent = formatCurrency(0);
+                if (revenueDownsellSpan) revenueDownsellSpan.textContent = formatCurrency(0);
+
+                if (frontEndGrossRevenueSpan) frontEndGrossRevenueSpan.textContent = formatCurrency(0);
+                if (frontEndNetRevenueSpan) frontEndNetRevenueSpan.textContent = formatCurrency(0);
+                if (frontEndCalculatedAovSpan) frontEndCalculatedAovSpan.textContent = formatCurrency(0);
+                styleProfit(frontEndTotalProfitSpan, 0);
+                styleRoas(frontEndRoasSpan, 0);
+
+                if (totalBackendCustomersSpan) totalBackendCustomersSpan.textContent = 'N/A';
+                if (revenuePifSpan) revenuePifSpan.textContent = formatCurrency(0);
+                if (revenuePp1Span) revenuePp1Span.textContent = formatCurrency(0);
+
+                if (totalFunnelGrossRevenueSpan) totalFunnelGrossRevenueSpan.textContent = formatCurrency(0);
+                if (totalFunnelNetRevenueSpan) totalFunnelNetRevenueSpan.textContent = formatCurrency(0);
+                styleProfit(totalFunnelProfitSpan, 0);
+                styleRoas(totalFunnelRoasSpan, 0);
+
+                console.error("Validation failed. Inputs:", inputs);
+                return;
+            } else {
+                errorMessageDiv.classList.add('hidden');
+            }
+
+            // --- Core Ad Performance Calculations ---
+            const totalClicks = cpc > 0 ? adBudget / cpc : 0;
+
+            // --- Front-End Funnel Metrics Calculations ---
+            const totalLeads = totalClicks * clickToLeadConversion;
+            const costPerLead = totalLeads > 0 ? adBudget / totalLeads : 0;
+            const totalCustomers = totalLeads * leadToCustomerConversion;
+            const costPerCustomer = totalCustomers > 0 ? adBudget / totalCustomers : 0;
+
+            // --- Front-End Revenue Breakdown Calculations ---
+            const revenueInitialOffer = totalCustomers * initialOfferPrice;
+            const revenueOrderBump = totalCustomers * orderBumpConversion * orderBumpPrice;
+            const revenueOrderBump2 = totalCustomers * orderBump2Conversion * orderBump2Price;
+            const revenueOto1 = totalCustomers * oto1Conversion * oto1Price;
+            const revenueOto2 = totalCustomers * oto2Conversion * oto2Price;
+            const revenueDownsell = totalCustomers * downsellConversion * downsellPrice;
+
+            const frontEndGrossRevenue = revenueInitialOffer + revenueOrderBump + revenueOrderBump2 +
+                                      revenueOto1 + revenueOto2 + revenueDownsell;
+            const frontEndNetRevenue = frontEndGrossRevenue; // No refund rate
+
+            const frontEndTotalProfit = frontEndNetRevenue - adBudget;
+            const frontEndRoas = adBudget > 0 ? frontEndNetRevenue / adBudget : 0;
+
+            // --- Back-End Sales Calculations (Simplified) ---
+            const totalBackendCustomers = totalCustomers * customerToBackendConversion;
+            const numPifCustomers = totalBackendCustomers * pifConversion;
+            // The remaining back-end customers take Payment Plan 1
+            const numPp1Customers = totalBackendCustomers * (1 - pifConversion); 
+
+            const revenuePif = numPifCustomers * pifPrice;
+            const revenuePp1 = numPp1Customers * pp1Price;
+
+            // --- Total Funnel Financials Calculations ---
+            const totalFunnelGrossRevenue = frontEndGrossRevenue + revenuePif + revenuePp1;
+            const totalFunnelNetRevenue = totalFunnelGrossRevenue; // No overall refund rate
+            const totalFunnelProfit = totalFunnelNetRevenue - adBudget;
+            const totalFunnelRoas = adBudget > 0 ? totalFunnelNetRevenue / adBudget : 0;
+
+            // --- Update Display ---
+            if (totalClicksSpan) totalClicksSpan.textContent = Math.round(totalClicks).toLocaleString();
+            if (totalLeadsSpan) totalLeadsSpan.textContent = Math.round(totalLeads).toLocaleString();
+            if (costPerLeadSpan) costPerLeadSpan.textContent = formatCurrency(costPerLead);
+            if (totalCustomersSpan) totalCustomersSpan.textContent = Math.round(totalCustomers).toLocaleString();
+            if (costPerCustomerSpan) costPerCustomerSpan.textContent = formatCurrency(costPerCustomer);
+
+            // Apply results-value class to ensure consistent styling
+            if (revenueInitialOfferSpan) { revenueInitialOfferSpan.textContent = formatCurrency(revenueInitialOffer); revenueInitialOfferSpan.classList.add('results-value'); }
+            if (revenueOrderBumpSpan) { revenueOrderBumpSpan.textContent = formatCurrency(revenueOrderBump); revenueOrderBumpSpan.classList.add('results-value'); }
+            if (revenueOrderBump2Span) { revenueOrderBump2Span.textContent = formatCurrency(revenueOrderBump2); revenueOrderBump2Span.classList.add('results-value'); }
+            if (revenueOto1Span) { revenueOto1Span.textContent = formatCurrency(revenueOto1); revenueOto1Span.classList.add('results-value'); }
+            if (revenueOto2Span) { revenueOto2Span.textContent = formatCurrency(revenueOto2); revenueOto2Span.classList.add('results-value'); }
+            if (revenueDownsellSpan) { revenueDownsellSpan.textContent = formatCurrency(revenueDownsell); revenueDownsellSpan.classList.add('results-value'); }
+
+            // Front-End Overall Financials
+            if (frontEndGrossRevenueSpan) { frontEndGrossRevenueSpan.textContent = formatCurrency(frontEndGrossRevenue); frontEndGrossRevenueSpan.classList.add('results-value'); }
+            if (frontEndNetRevenueSpan) { frontEndNetRevenueSpan.textContent = formatCurrency(frontEndNetRevenue); frontEndNetRevenueSpan.classList.add('results-value'); }
+            const frontEndCalculatedAov = totalCustomers > 0 ? frontEndNetRevenue / totalCustomers : 0;
+            if (frontEndCalculatedAovSpan) { frontEndCalculatedAovSpan.textContent = formatCurrency(frontEndCalculatedAov); frontEndCalculatedAovSpan.classList.add('results-value'); }
+            styleProfit(frontEndTotalProfitSpan, frontEndTotalProfit);
+            styleRoas(frontEndRoasSpan, frontEndRoas);
+
+            // Back-End Revenue Breakdown
+            // Display totalBackendCustomers with 2 decimal places
+            if (totalBackendCustomersSpan) totalBackendCustomersSpan.textContent = totalBackendCustomers.toFixed(2);
+            if (revenuePifSpan) { revenuePifSpan.textContent = formatCurrency(revenuePif); revenuePifSpan.classList.add('results-value'); }
+            if (revenuePp1Span) { revenuePp1Span.textContent = formatCurrency(revenuePp1); revenuePp1Span.classList.add('results-value'); }
+
+            // Total Funnel Financials (Front-End + Back-End)
+            if (totalFunnelGrossRevenueSpan) { totalFunnelGrossRevenueSpan.textContent = formatCurrency(totalFunnelGrossRevenue); totalFunnelGrossRevenueSpan.classList.add('results-value'); }
+            if (totalFunnelNetRevenueSpan) { totalFunnelNetRevenueSpan.textContent = formatCurrency(totalFunnelNetRevenue); totalFunnelNetRevenueSpan.classList.add('results-value'); }
+            styleProfit(totalFunnelProfitSpan, totalFunnelProfit);
+            styleRoas(totalFunnelRoasSpan, totalFunnelRoas);
+        }
+
+        // Add event listeners to all input fields to trigger calculation on change
+        const inputElements = document.querySelectorAll('input[type="number"]');
+        inputElements.forEach(input => {
+            input.addEventListener('input', calculateProjections);
+        });
+
+        // Initial calculation when the page loads
+        document.addEventListener('DOMContentLoaded', calculateProjections);
+    </script>
+</body>
+</html>
