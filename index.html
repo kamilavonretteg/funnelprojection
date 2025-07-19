@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Campaign Projection Calculator</title>
+    <title>MCO Funnel Ad Projection</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -31,11 +31,12 @@
             <img src="https://kamilavonretteg.com/wp-content/uploads/2025/07/kamila-main-cream-scaled.png" alt="Kamila Von Retteg Logo" class="mx-auto rounded-lg max-h-24 object-contain">
         </div>
 
-        <h1 class="text-4xl font-bold text-[#5E3321] text-center mb-4 drop-shadow-sm">Ad Campaign Funnel Projection Calculator</h1>
+        <h1 class="text-4xl font-bold text-[#5E3321] text-center mb-4 drop-shadow-sm">MCO Funnel Ad Projection</h1>
 
         <!-- Introduction Text Section -->
         <div class="text-center text-gray-700 text-sm mb-8 p-4 bg-gray-100 rounded-lg shadow-inner">
             <p class="mb-2">This calculator is exclusively for our clients and should be used alongside guidance from your coach. It's designed to show how even small tweaks in your funnel can create big shifts in your overall results.</p>
+            <p class="mb-2">Please note sales numbers may be rounded up.</p>
             <p>If a field doesn’t apply to your funnel, just leave it blank or type in '0'.</p>
         </div>
 
@@ -76,6 +77,11 @@
                         <label for="leadToCustomerConversion" class="block text-sm font-medium percentage-label mb-1">Lead to Customer Conversion (%)</label>
                         <input type="number" id="leadToCustomerConversion" value="50" min="0" max="100" step="0.1"
                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                    <!-- New: Click to Sale Conversion % -->
+                    <div class="flex justify-between items-center py-2 border-t border-gray-200 mt-4 pt-4">
+                        <span class="text-gray-700 font-medium">Calculated Click to Sale Conversion:</span>
+                        <span id="clickToSaleConversion" class="text-blue-700 font-bold text-lg">0.00%</span>
                     </div>
                     <!-- Funnel Metrics results -->
                     <div class="border-t border-gray-200 mt-4 pt-4 space-y-2">
@@ -180,8 +186,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 4. Financial Adjustments (Refund Rate Removed) - This section is now removed -->
 
                 <!-- 5. Optional Back-End Sales Projections (Simplified) -->
                 <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
@@ -371,7 +375,7 @@
 
         // Get references to output elements
         const totalClicksSpan = document.getElementById('totalClicks');
-        const calculatedCpcSpan = document.getElementById('calculatedCpc');
+        const calculatedCpcSpan = document.getElementById('calculatedCpc'); // This span is not used, can be removed if not needed
         const totalLeadsSpan = document.getElementById('totalLeads');
         const costPerLeadSpan = document.getElementById('costPerLead');
         const totalCustomersSpan = document.getElementById('totalCustomers');
@@ -383,6 +387,9 @@
         const revenueOto2Span = document.getElementById('revenueOto2');
         const revenueOto3Span = document.getElementById('revenueOto3'); // New OTO3 output
         const revenueDownsellSpan = document.getElementById('revenueDownsell');
+
+        // New: Click to Sale Conversion output
+        const clickToSaleConversionSpan = document.getElementById('clickToSaleConversion');
 
         // Back-End Sales Outputs (Simplified)
         const totalBackendCustomersSpan = document.getElementById('totalBackendCustomers');
@@ -441,7 +448,7 @@
 
             spanElement.classList.remove('text-red-700', 'text-green-700', 'text-gray-700');
             // Ensure the base color is applied before conditional colors
-            spanElement.classList.add('results-value'); 
+            spanElement.classList.add('results-value');
 
             let roasText = roasValue.toFixed(2) + 'x';
 
@@ -466,7 +473,7 @@
 
             spanElement.classList.remove('text-red-700', 'text-green-700', 'text-gray-700');
             // Ensure the base color is applied before conditional colors
-            spanElement.classList.add('results-value'); 
+            spanElement.classList.add('results-value');
 
             if (profitValue < 0) {
                 spanElement.classList.add('text-red-700');
@@ -521,17 +528,17 @@
             ];
 
             const isValid = inputs.every(val => !isNaN(val) && val >= 0) &&
-                            cpc > 0 &&
-                            clickToLeadConversion >= 0 && clickToLeadConversion <= 1 &&
-                            leadToCustomerConversion >= 0 && leadToCustomerConversion <= 1 &&
-                            orderBumpConversion >= 0 && orderBumpConversion <= 1 &&
-                            orderBump2Conversion >= 0 && orderBump2Conversion <= 1 &&
-                            oto1Conversion >= 0 && oto1Conversion <= 1 &&
-                            oto2Conversion >= 0 && oto2Conversion <= 1 &&
-                            oto3Conversion >= 0 && oto3Conversion <= 1 && // Validate OTO3 conversion
-                            downsellConversion >= 0 && downsellConversion <= 1 &&
-                            customerToBackendConversion >=0 && customerToBackendConversion <= 1 &&
-                            pifConversion >=0 && pifConversion <= 1; // pp1Conversion is derived, not input
+                                cpc > 0 &&
+                                clickToLeadConversion >= 0 && clickToLeadConversion <= 1 &&
+                                leadToCustomerConversion >= 0 && leadToCustomerConversion <= 1 &&
+                                orderBumpConversion >= 0 && orderBumpConversion <= 1 &&
+                                orderBump2Conversion >= 0 && orderBump2Conversion <= 1 &&
+                                oto1Conversion >= 0 && oto1Conversion <= 1 &&
+                                oto2Conversion >= 0 && oto2Conversion <= 1 &&
+                                oto3Conversion >= 0 && oto3Conversion <= 1 && // Validate OTO3 conversion
+                                downsellConversion >= 0 && downsellConversion <= 1 &&
+                                customerToBackendConversion >=0 && customerToBackendConversion <= 1 &&
+                                pifConversion >=0 && pifConversion <= 1; // pp1Conversion is derived, not input
 
             if (!isValid) {
                 errorMessageDiv.classList.remove('hidden');
@@ -541,7 +548,8 @@
                 if (costPerLeadSpan) costPerLeadSpan.textContent = formatCurrency(0);
                 if (totalCustomersSpan) totalCustomersSpan.textContent = 'N/A';
                 if (costPerCustomerSpan) costPerCustomerSpan.textContent = formatCurrency(0);
-                
+                if (clickToSaleConversionSpan) clickToSaleConversionSpan.textContent = formatPercentage(0); // Reset new span
+
                 if (revenueInitialOfferSpan) revenueInitialOfferSpan.textContent = formatCurrency(0);
                 if (revenueOrderBumpSpan) revenueOrderBumpSpan.textContent = formatCurrency(0);
                 if (revenueOrderBump2Span) revenueOrderBump2Span.textContent = formatCurrency(0);
@@ -580,6 +588,10 @@
             const totalCustomers = totalLeads * leadToCustomerConversion;
             const costPerCustomer = totalCustomers > 0 ? adBudget / totalCustomers : 0;
 
+            // New: Click to Sale Conversion
+            const clickToSaleConversion = clickToLeadConversion * leadToCustomerConversion;
+
+
             // --- Front-End Revenue Breakdown Calculations ---
             const revenueInitialOffer = totalCustomers * initialOfferPrice;
             const revenueOrderBump = totalCustomers * orderBumpConversion * orderBumpPrice;
@@ -590,7 +602,7 @@
             const revenueDownsell = totalCustomers * downsellConversion * downsellPrice;
 
             const frontEndGrossRevenue = revenueInitialOffer + revenueOrderBump + revenueOrderBump2 +
-                                      revenueOto1 + revenueOto2 + revenueOto3 + revenueDownsell; // Include OTO3 in sum
+                                         revenueOto1 + revenueOto2 + revenueOto3 + revenueDownsell; // Include OTO3 in sum
             const frontEndNetRevenue = frontEndGrossRevenue; // No refund rate
 
             const frontEndTotalProfit = frontEndNetRevenue - adBudget;
@@ -600,7 +612,7 @@
             const totalBackendCustomers = totalCustomers * customerToBackendConversion;
             const numPifCustomers = totalBackendCustomers * pifConversion;
             // The remaining back-end customers take Payment Plan 1
-            const numPp1Customers = totalBackendCustomers * (1 - pifConversion); 
+            const numPp1Customers = totalBackendCustomers * (1 - pifConversion);
 
             const revenuePif = numPifCustomers * pifPrice;
             const revenuePp1 = numPp1Customers * pp1Price;
@@ -617,6 +629,9 @@
             if (costPerLeadSpan) costPerLeadSpan.textContent = formatCurrency(costPerLead);
             if (totalCustomersSpan) totalCustomersSpan.textContent = Math.round(totalCustomers).toLocaleString();
             if (costPerCustomerSpan) costPerCustomerSpan.textContent = formatCurrency(costPerCustomer);
+
+            // Update new Click to Sale Conversion
+            if (clickToSaleConversionSpan) clickToSaleConversionSpan.textContent = formatPercentage(clickToSaleConversion);
 
             // Apply results-value class to ensure consistent styling
             if (revenueInitialOfferSpan) { revenueInitialOfferSpan.textContent = formatCurrency(revenueInitialOffer); revenueInitialOfferSpan.classList.add('results-value'); }
